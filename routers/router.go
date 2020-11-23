@@ -14,19 +14,31 @@ import (
 )
 
 func init() {
+	beego.Router("/default/index", &controllers.DefaultController{}, "get:Index") //参数id
+	beego.Router("/default/adduser", &controllers.DefaultController{}, "post:AddUser")
+	
 	ns := beego.NewNamespace("/v1",
 
+		beego.NSNamespace("/user",
+			beego.NSRouter("/add",&controllers.UserController{},"post:Add"),
+			beego.NSRouter("/getone/:id",&controllers.UserController{},"get:GetOne"),
+			beego.NSRouter("/GetAll",&controllers.UserController{},"get:GetAll"),
+			beego.NSRouter("/put",&controllers.UserController{},"put:Put"),
+			beego.NSRouter("/delete/:id",&controllers.UserController{},"get:Delete"),
+		),
+
 		beego.NSNamespace("/goods",
-			beego.NSInclude(
-				&controllers.GoodsController{},
-			),
-			beego.NSRouter("/get-one/:id",&controllers.GoodsController{},"get:GetOne"),
+			// beego.NSInclude(
+			// 	&controllers.GoodsController{},
+			// ),
+			beego.NSRouter("/post",&controllers.GoodsController{},"Post:Post"),
+			beego.NSRouter("/getone/:id",&controllers.GoodsController{},"get:GetOne"),
 		),
 
 		beego.NSNamespace("/person",
-			beego.NSInclude(
-				&controllers.PersonController{},
-			),
+			// beego.NSInclude(
+			// 	&controllers.PersonController{},
+			// ),
 		),
 	)
 	beego.AddNamespace(ns)

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户主页</title>
+    <style>
+        table{
+            margin: 2em;
+        }
+        tr{
+            font-size: 0.8em;
+            padding: 1em;
+        }
+    </style>
+</head>
+<body>
+    <form action="/default/adduser" method="POST">
+        <table>
+            <tr>用户名:&nbsp;<input name="user_name" type="text" value="user_name"></tr>
+            <tr>ip地址:&nbsp;<input name="addr_ip" type="text" value="127.0.0.2"></tr>
+        </table>
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+</html>
