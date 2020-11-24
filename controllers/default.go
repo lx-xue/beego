@@ -2,8 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"myapp-beego/models"
-	"time"
 
 	"github.com/astaxie/beego"
 )
@@ -44,8 +42,16 @@ func (user *DefaultController) Index() {
 	// arrarr[1] = arrarr[0]
 	// arrarr1 := [4][2]int{{10, 11}, {20, 21}, {30, 31}, {40, 41}} //声明一个二维数组,同时初始化它
 	// fmt.Printf("%v\n %v\n", arrarr, arrarr1)
-	//切片
 
+	array := [30]int{ //数组
+		1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+	}
+	slice := []int{ //切片声明是[],不指定数量
+		1, 2, 3, 4, 5,
+	}
+	//切片1
+	slice1 := array[20:]
+	fmt.Printf("%v\n %v\n", slice, slice1)
 	numbers := make([]int, 3, 5)
 	id := user.Input().Get("id")
 	name := user.Input().Get("name")
@@ -58,21 +64,89 @@ func (user *DefaultController) Index() {
 
 //添加用户
 func (user *DefaultController) AddUser() {
-	user_name := user.GetString("user_name")
-	addr_ip := user.GetString("addr_ip")
-	curtime := time.Now().Unix() //当前时间戳
-	user_data := models.User{
-		UserName:   user_name,
-		AddrIp:     addr_ip,
-		CreateTime: int(curtime),
-		UpdateTime: int(curtime),
-	}
-	id, _ := models.AddUser(&user_data)
-	fmt.Printf("%v\n %v\n %v\n", id, user_data)
-	var slice []float64 = make([]float64, 5, 10) //创建一个切片
-	var slice1 [5]int = [...]int{1, 2, 3, 4, 5}  //创建一个切片,并初始化
-	arr := slice1[1:3]
-	user.Data["slice"] = slice
-	user.Data["slice1"] = arr
+	// user_name := user.GetString("user_name")
+	// addr_ip := user.GetString("addr_ip")
+	// curtime := time.Now().Unix() //当前时间戳
+	// user_data := models.User{
+	// 	UserName:   user_name,
+	// 	AddrIp:     addr_ip,
+	// 	CreateTime: int(curtime),
+	// 	UpdateTime: int(curtime),
+	// }
+	// id, _ := models.AddUser(&user_data)
+	// fmt.Printf("%v\n %v\n %v\n", id, user_data)
+	// var slice []float64         //创建一个切片
+	// var slice1 = []int{1, 2, 3} //创建一个切片,并初始化
+	// arr := slice1[1:3]
+	// var a [5]string
+	// var b []int
+	// c := a
+	// d := b
+	// fmt.Println("%v\n %v\n %v\n %v\n", c, d)
+	// user.Data["slice"] = slice
+	// user.Data["slice1"] = arr
+	// var slice []int
+	// a := append(slice, 1)
+	// b := append(slice, 1, 2)
+	// c := append(slice, []int{1, 2, 3}...)
+	// fmt.Println("%v\n %v\n %v\n %v\n %v\n", a, b, c, slice)
+	// var numbers []int
+	// for i := 0; i < 10; i++ {
+	// 	numbers = append(numbers, i)
+	// 	fmt.Printf("len: %d  cap: %d pointer: %v\n", len(numbers), cap(numbers), numbers)
+	// }
+
+	// // 设置元素数量为1000
+	// const elementCount = 1000
+	// // 预分配足够多的元素切片
+	// srcData := make([]int, elementCount)
+	// //将切片赋值
+	// for i := 0; i < elementCount; i++ {
+	// 	srcData[i] = i
+	// }
+	// // 引用切片数据
+	// refData := srcData
+	// // 预分配足够多的元素切片
+	// copyData := make([]int, elementCount)
+	// // 将数据复制到新的切片空间中
+	// copy(copyData, srcData)
+	// // 修改原始数据的第一个元素
+	// srcData[0] = 999
+	// // 打印引用切片的第一个元素
+	// fmt.Println(refData[0])
+	// // 打印复制切片的第一个和最后一个元素
+	// fmt.Println(copyData[0], copyData[elementCount-1])
+	// // 复制原始数据从4到6(不包含)
+	// copy(copyData, srcData[4:6])
+	// for i := 0; i < 5; i++ {
+	// 	fmt.Printf("%d ", copyData[i])
+	// }
+
+	// fmt.Printf("%p\n %v\n",srcData,srcData)
+
+	//map(集合)
+	// var countryCapitalMap map[string]string /*创建集合 */
+	// countryCapitalMap = make(map[string]string)
+
+	// /* map插入key - value对,各个国家对应的首都 */
+	// countryCapitalMap["France"] = "巴黎"
+	// countryCapitalMap["Italy"] = "罗马"
+	// countryCapitalMap["Japan"] = "东京"
+	// countryCapitalMap["India "] = "新德里"
+	// fmt.Printf("%v\n", countryCapitalMap)
+	// for k,v := range countryCapitalMap {
+	// 	fmt.Printf("%v %v\n",k,v)
+	// }
+	// map1 := make(map[string]int)
+	// map1["route"] = 66
+	// map1["brazil"] = 4
+	// map1["china"] = 960
+	// fmt.Printf("%v\n", map1)
+	// delete(map1, "china")
+	// fmt.Printf("%v\n", map1)
+	//切片
+	slice1 := []int{1, 2, 3}
+	slice2 := slice1[1:2]
+	fmt.Printf("%v\n %v\n", slice1, slice2)
 	user.Ctx.WriteString("post表单提交成功:\n")
 }
