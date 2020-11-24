@@ -21,10 +21,10 @@ func init() {
 
 		beego.NSNamespace("/user",
 			beego.NSRouter("/add",&controllers.UserController{},"post:Add"),
-			beego.NSRouter("/getone/:id",&controllers.UserController{},"get:GetOne"),
+			beego.NSRouter("/getone",&controllers.UserController{},"get:GetOne"),
 			beego.NSRouter("/GetAll",&controllers.UserController{},"get:GetAll"),
 			beego.NSRouter("/put",&controllers.UserController{},"put:Put"),
-			beego.NSRouter("/delete/:id",&controllers.UserController{},"get:Delete"),
+			beego.NSRouter("/delete",&controllers.UserController{},"get:Delete"),
 		),
 
 		beego.NSNamespace("/goods",
@@ -32,7 +32,7 @@ func init() {
 			// 	&controllers.GoodsController{},
 			// ),
 			beego.NSRouter("/post",&controllers.GoodsController{},"Post:Post"),
-			beego.NSRouter("/getone/:id",&controllers.GoodsController{},"get:GetOne"),
+			beego.NSRouter("/getone",&controllers.GoodsController{},"get:GetOne"),
 		),
 
 		beego.NSNamespace("/person",
