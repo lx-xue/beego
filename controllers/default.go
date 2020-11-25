@@ -145,8 +145,26 @@ func (user *DefaultController) AddUser() {
 	// delete(map1, "china")
 	// fmt.Printf("%v\n", map1)
 	//切片
-	slice1 := []int{1, 2, 3}
-	slice2 := slice1[1:2]
-	fmt.Printf("%v\n %v\n", slice1, slice2)
+	// slice1 := []int{1, 2, 3}
+	// slice2 := slice1[1:2]
+	// slice3 := slice2
+	// slice3[0] = 5
+	// slice2[0] = 4
+	// var a = []int{1, 2, 3} //切片
+	// m := a[:]              //切片的切片
+	// c := append(a, 1, 2)
+	// d := append(a[:0], a[1:]...) // 在开头添加1个元素
+	// a = append([]int{-3, -2, -1}, a...) // 在开头添加1个切片
+	// for k1, v1 := range slice2 {
+	// 	fmt.Printf("%v\n %v\n", k1, v1)
+	// }
+	// for k, v := range slice3 {
+	// 	fmt.Printf("%v\n %v\n", k, v)
+	// }
+	var map1 = map[string]int{"a": 1}
+	// map1 = map[string]int{"a": 1}
+	map1["c"] = 2
+	map1["d"] = 3
+	fmt.Printf("%v\n %v\n %v\n %v\n %v\n %v\n", map1)
 	user.Ctx.WriteString("post表单提交成功:\n")
 }
