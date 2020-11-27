@@ -161,10 +161,44 @@ func (user *DefaultController) AddUser() {
 	// for k, v := range slice3 {
 	// 	fmt.Printf("%v\n %v\n", k, v)
 	// }
-	var map1 = map[string]int{"a": 1}
-	// map1 = map[string]int{"a": 1}
-	map1["c"] = 2
-	map1["d"] = 3
-	fmt.Printf("%v\n %v\n %v\n %v\n %v\n %v\n", map1)
+	// var map1 = map[string]int{"a": 1}
+	// // map1 = map[string]int{"a": 1}
+	// map1["c"] = 2
+	// map1["d"] = 3
+	// fmt.Printf("%v\n %v\n %v\n %v\n %v\n %v\n", map1)
+	// r1,r2 :=test(1,2,"yyyy")
+	// fmt.Printf("%v\n %v\n",r1,r2)
+	//匿名函数用作回调
+	// test1([]int{1, 2, 3}, func(v int) {
+	// 	fmt.Printf("%v\n", v)
+	// })
+	huidiao(2, func(i int, cs int) {
+		v := i * cs
+		fmt.Printf("%v\n", v)
+	})
 	user.Ctx.WriteString("post表单提交成功:\n")
+}
+
+//普通函数,用户传入不同的匿名函数体可以实现对元素不同的遍历操作
+func test(a int, b int, c string) (int, string) {
+	//匿名函数
+	func(data int) {
+		fmt.Println("hello", data)
+	}(100) //(100)是对匿名函数进行调用,参数100
+	f := func(data1 int) {
+		fmt.Printf("%v\n", data1)
+	}
+	f(90) //调用
+	return b, c
+}
+
+//普通函数+匿名函数用作回调,(第一个参数是切片,第二个参数是匿名函数,匿名函数有一个int类型参数)
+func test1(slice1 []int, f1 func(int)) {
+	for _, v := range slice1 {
+		f1(v)
+	}
+}
+
+func huidiao(cs int, nmhs func(int, int)) {
+	nmhs(cs, cs)
 }
