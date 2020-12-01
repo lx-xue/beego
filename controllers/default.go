@@ -1,11 +1,12 @@
 package controllers
 
 import (
+	"flag"
 	"fmt"
 
 	"github.com/astaxie/beego"
 )
-
+var skillParam = flag.String("skill", "", "skill to perform")
 type Ccc struct {
 	Id         int    `orm:"column(user_id);auto"`
 	UserName   string `orm:"column(user_name);size(255);not null"`
@@ -172,10 +173,29 @@ func (user *DefaultController) AddUser() {
 	// test1([]int{1, 2, 3}, func(v int) {
 	// 	fmt.Printf("%v\n", v)
 	// })
-	huidiao(2, func(i int, cs int) {
-		v := i * cs
-		fmt.Printf("%v\n", v)
-	})
+	// huidiao(2, func(i int, cs int) {
+	// 	v := i * cs
+	// 	fmt.Printf("%v\n", v)
+	// })
+	// 使用匿名函数实现操作封装
+	// 匿名函数作为 map 的键值，通过命令行参数动态调用匿名函数
+	flag.Parse()
+    var skill = map[string]func(){
+        "fire": func() {
+            fmt.Println("chicken fire")
+        },
+        "run": func() {
+            fmt.Println("soldier run")
+        },
+        "fly": func() {
+            fmt.Println("angel fly")
+        },
+    }
+    if f, ok := skill[*skillParam]; ok {
+        f()
+    } else {
+        fmt.Println("skill not found")
+    }
 	user.Ctx.WriteString("post表单提交成功:\n")
 }
 
