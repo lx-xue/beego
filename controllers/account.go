@@ -32,8 +32,9 @@ func (this *AccountController) LoginAction() {
 	if err == nil {
 		get := redis.Get(addr_ip)
 		if get != nil { //redis存在此账户信息,直接返回结果
-			fmt.Printf("%v\n", get)
-			// fmt.Printf("%v\n", string(get.([]byte)))
+			fmt.Printf("%v\n", string(get.([]byte)))
+			this.Data["json"] = map[string]interface{}{"status": 1, "msg": "success", "data": string(get.([]byte))}
+			this.ServeJSON()
 		} else { //redis不存在此账户信息,先保存redis,再返回结果
 			//框架orm获取账户信息
 			res, err := models.GetUserByMap(addr_ip, password)
@@ -41,14 +42,22 @@ func (this *AccountController) LoginAction() {
 				this.Data["json"] = map[string]interface{}{"status": 0, "msg": err}
 				this.ServeJSON()
 			} else {
-				redis.Put(addr_ip, *res, 3600*time.Second)
+				user_data := map[string]interface{}{}
+
+				user_data["Id"] = res.Id
+				user_data["UserName"] = res.UserName
+				user_data["AddrIp"] = res.AddrIp
+				user_data["Password"] = res.Password
+				user_data["CreateTime"] = res.CreateTime
+				user_data["UpdateTime"] = res.UpdateTime
+				fmt.Printf("%v\n", user_data)
+				redis.Put(addr_ip, user_data, 3600*time.Second)
 				this.Data["json"] = map[string]interface{}{"status": 1, "msg": "success", "data": res}
 				this.ServeJSON()
 			}
 		}
 
 	}
-
 	//db库接口获取账户信息
 	db, err := sql.Open("mysql", "root:root@/beego?charset=utf8")
 	// fmt.Printf("%v\n", &err)
@@ -84,6 +93,8 @@ func (this *AccountController) LoginAction() {
 	var ss models.User
 	//查询一条
 	err = db.QueryRow("SELECT * FROM user WHERE user_id =?", 1).Scan(&ss.Id, &ss.UserName, &ss.AddrIp, &ss.Password, &ss.CreateTime, &ss.UpdateTime)
+	this.Data["aa"] = map[string]interface{}{"status": 1, "msg": "success", "data": "ss"}
+	this.ServeJSON()
 	// fmt.Printf("%v\n %v\n", err, ss)
 }
 
