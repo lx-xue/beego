@@ -4,9 +4,11 @@ import (
 	"database/sql"
 	"fmt"
 	"myapp-beego/models"
+	"time"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/cache"
+	_ "github.com/astaxie/beego/cache/redis"
 )
 
 //定义控制器(结构体)
@@ -24,17 +26,27 @@ func (this *AccountController) LoginIndex() {
 func (this *AccountController) LoginAction() {
 	addr_ip := this.GetString("addr_ip")
 	password := this.GetString("password")
-	//框架orm获取账户信息
-	res, err := models.GetUserByMap(addr_ip, password)
-	if res == nil {
-		this.Data["json"] = map[string]interface{}{"status": 0, "msg": err}
-		this.ServeJSON()
-	} else {
-		//登录成功后,将账户信息存入redis(并设置缓存时间)
-		redis, err := cache.NewCache("redis", `{"key":"user","conn":":6379","dbNum":"0"}`)
-		fmt.Printf("%v\n %v\n", redis, err)
-		this.Data["json"] = map[string]interface{}{"status": 1, "msg": "success", "data": res}
-		this.ServeJSON()
+	//登录成功后,将账户信息存入redis(并设置缓存时间)redis获取账户信息
+	redis, err := cache.NewCache("redis", `{"key":"user","conn":":6379","dbNum":"0"}`)
+	// fmt.Printf("%v\n %v\n", redis, err)
+	if err == nil {
+		get := redis.Get(addr_ip)
+		if get != nil { //redis存在此账户信息,直接返回结果
+			fmt.Printf("%v\n", get)
+			// fmt.Printf("%v\n", string(get.([]byte)))
+		} else { //redis不存在此账户信息,先保存redis,再返回结果
+			//框架orm获取账户信息
+			res, err := models.GetUserByMap(addr_ip, password)
+			if res == nil {
+				this.Data["json"] = map[string]interface{}{"status": 0, "msg": err}
+				this.ServeJSON()
+			} else {
+				redis.Put(addr_ip, *res, 3600*time.Second)
+				this.Data["json"] = map[string]interface{}{"status": 1, "msg": "success", "data": res}
+				this.ServeJSON()
+			}
+		}
+
 	}
 
 	//db库接口获取账户信息
@@ -56,11 +68,11 @@ func (this *AccountController) LoginAction() {
 
 		//将数据保存到 record 字典scanArgs元素必须是指针元素
 		err = rows.Scan(scanArgs...) //此操作也相当于把数据保存到values
-		fmt.Printf("%v\n", err)
+		// fmt.Printf("%v\n", err)
 		record := make(map[string]string)
 		for i, col := range values {
 			if col != nil {
-				fmt.Println(string(col.([]byte)))
+				// fmt.Println(string(col.([]byte)))
 				record[columns[i]] = string(col.([]byte))
 			}
 		}
@@ -68,7 +80,7 @@ func (this *AccountController) LoginAction() {
 		user_arr[user_arr_key] = record
 		user_arr_key++
 	}
-	fmt.Printf("%v\n", user_arr)
+	// fmt.Printf("%v\n", user_arr)
 	var ss models.User
 	//查询一条
 	err = db.QueryRow("SELECT * FROM user WHERE user_id =?", 1).Scan(&ss.Id, &ss.UserName, &ss.AddrIp, &ss.Password, &ss.CreateTime, &ss.UpdateTime)
