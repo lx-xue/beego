@@ -6,6 +6,7 @@ import (
 	"myapp-beego/models"
 
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/cache"
 )
 
 //定义控制器(结构体)
@@ -29,6 +30,9 @@ func (this *AccountController) LoginAction() {
 		this.Data["json"] = map[string]interface{}{"status": 0, "msg": err}
 		this.ServeJSON()
 	} else {
+		//登录成功后,将账户信息存入redis(并设置缓存时间)
+		redis, err := cache.NewCache("redis", `{"key":"user","conn":":6379","dbNum":"0"}`)
+		fmt.Printf("%v\n %v\n", redis, err)
 		this.Data["json"] = map[string]interface{}{"status": 1, "msg": "success", "data": res}
 		this.ServeJSON()
 	}
