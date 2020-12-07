@@ -161,10 +161,78 @@ func (user *DefaultController) AddUser() {
 	// for k, v := range slice3 {
 	// 	fmt.Printf("%v\n %v\n", k, v)
 	// }
-	var map1 = map[string]int{"a": 1}
-	// map1 = map[string]int{"a": 1}
-	map1["c"] = 2
-	map1["d"] = 3
-	fmt.Printf("%v\n %v\n %v\n %v\n %v\n %v\n", map1)
+	// var map1 = map[string]int{"a": 1}
+	// // map1 = map[string]int{"a": 1}
+	// map1["c"] = 2
+	// map1["d"] = 3
+	// fmt.Printf("%v\n %v\n %v\n %v\n %v\n %v\n", map1)
+	// 流程控制语句
+	// if 1==1 && false {
+	// 	fmt.Printf("%v\n",12)
+	// }else{
+	// 	fmt.Printf("%v\n",11)
+	// }
+	// count :=10
+	// for i := 0; i < count; i++ {
+	// 	fmt.Printf("%v\n",i)
+	// }
+	// map1 := map[int]int{
+	// 	1:1,
+	// 	2:2,
+	// 	3:3,
+	// }
+	// for k,v := range map1{
+	// 	fmt.Printf("%v %v %v\n",k,"=>",v)
+	// }
+	// case1 := "3"
+	// switch case1{
+	// case "1":
+	// 	fmt.Printf("%v\n",case1)
+	// case "2":
+	// 	fmt.Printf("%v\n",case1)	
+	// default :
+	// 	fmt.Printf("%v\n",0)
+
+	// }
+	
+    // for x := 0; x < 10; x++ {
+    //     for y := 0; y < 10; y++ {
+    //         if y == 2 {
+    //             // 跳转到标签
+    //             goto breakHere
+    //         }
+    //     }
+    // }
+    // // 手动返回, 避免执行进入标签
+    // return
+    // // 标签
+	// breakHere:
+	// fmt.Println("done")
+	// Go语言中 break 语句可以结束 for、switch 和 select 的代码块，另外 break 语句还可以在语句后面添加标签，表示退出某个标签对应的代码块，标签要求必须定义在对应的 for、switch 和 select 的代码块上。
+
+	// OuterLoop:
+    // for i := 0; i < 2; i++ {
+    //     for j := 0; j < 5; j++ {
+    //         switch j {
+    //         case 2:
+    //             fmt.Println(i, j)
+    //             break OuterLoop
+    //         case 3:
+    //             fmt.Println(i, j)
+    //             break OuterLoop
+    //         }
+    //     }
+	// }
+	// Go语言中 continue 语句可以结束当前循环，开始下一次的循环迭代过程，仅限在 for 循环内使用，在 continue 语句后添加标签时，表示开始标签对应的循环
+	// OuterLoop:
+    // for i := 0; i < 2; i++ {
+    //     for j := 0; j < 5; j++ {
+    //         switch j {
+    //         case 2:
+    //             fmt.Println(i, j)
+    //             continue OuterLoop
+    //         }
+    //     }
+    // }
 	user.Ctx.WriteString("post表单提交成功:\n")
 }
