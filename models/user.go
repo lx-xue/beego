@@ -11,11 +11,12 @@ import (
 
 //声明一个结构体
 type User struct {
-	Id       int    `orm:"column(user_id);auto"`
-	UserName string `orm:"column(user_name);size(255);not null"`
-	AddrIp   string `orm:"column(addr_ip);size(255);not null"`
-	CreateTime  int `orm:"column(create_time);size(10);null"`
-	UpdateTime  int `orm:"column(update_time);size(10);null"`
+	Id         int    `orm:"column(user_id);auto"`
+	UserName   string `orm:"column(user_name);size(255);not null"`
+	AddrIp     string `orm:"column(addr_ip);size(255);not null"`
+	Password   string `orm:"column(password);size(255);not null"`
+	CreateTime int    `orm:"column(create_time);size(10);null"`
+	UpdateTime int    `orm:"column(update_time);size(10);null"`
 }
 
 //声明表
@@ -43,6 +44,19 @@ func GetUserById(id int) (v *User, err error) {
 		return v, nil
 	}
 	return nil, err
+}
+
+//通过多条件获取数据(orm)
+func GetUserByMap(addr_ip string, password string) (v *User, err error) {
+	user_struct := &User{}
+	user_struct.AddrIp = addr_ip
+	user_struct.Password = password
+	o := orm.NewOrm()
+	_, qs := o.QueryTable("user").All(user_struct)
+	if qs != nil {
+		return nil, qs
+	}
+	return user_struct, nil
 }
 
 //获取条件用户数据
